@@ -1,4 +1,4 @@
-package com.trevorism.gcloud.webapi.controller
+package com.trevorism.event.webapi.controller
 
 import javax.ws.rs.GET
 import javax.ws.rs.Path
