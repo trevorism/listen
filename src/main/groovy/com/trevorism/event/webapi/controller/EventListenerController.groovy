@@ -2,6 +2,7 @@ package com.trevorism.event.webapi.controller
 
 import com.trevorism.event.handler.LoggingEventHandler
 import com.trevorism.event.handler.StoreEventHandler
+import com.trevorism.event.handler.TestResultEventHandler
 import com.trevorism.event.model.ReceivedEvent
 
 import javax.ws.rs.*
@@ -14,7 +15,7 @@ import javax.ws.rs.core.MediaType
 class EventListenerController {
 
     private StoreEventHandler storeEventHandler = new StoreEventHandler()
-    private LoggingEventHandler loggingEventHandler = new LoggingEventHandler()
+
 
 
     @GET
@@ -36,6 +37,16 @@ class EventListenerController {
     @Consumes(MediaType.APPLICATION_JSON)
     void handle(@PathParam("topic") String topic, Map<String, Object> data){
         ReceivedEvent event = ReceivedEvent.create(data)
-        loggingEventHandler.performAction(event)
+
+        if("testresult".equals(topic.toLowerCase())){
+            TestResultEventHandler handler = new TestResultEventHandler()
+            handler.performAction(event)
+        }else{
+            LoggingEventHandler handler = new LoggingEventHandler()
+            handler.performAction(event)
+        }
+
+
     }
+
 }
