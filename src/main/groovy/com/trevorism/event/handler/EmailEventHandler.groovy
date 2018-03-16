@@ -17,6 +17,9 @@ class EmailEventHandler implements EventHandler{
 
     @Override
     void performAction(ReceivedEvent event) {
+        //Only email if the test failed
+        if(event.message.data.passing)
+            return
         ping()
         String json = createEmailJson(event)
         log.info("POSTING ${json}")
@@ -24,22 +27,8 @@ class EmailEventHandler implements EventHandler{
     }
 
     private static String createEmailJson(ReceivedEvent event) {
-        def email = buildEmail(event)
         Gson gson = new Gson()
-        String json = gson.toJson(email)
-        json
-    }
-
-    private static def buildEmail(ReceivedEvent event) {
-        def email = [:]
-        email["subject"] = "Test for ${event.message.data.feature} failed".toString()
-        email["recipients"] = ["alerts@trevorism.com"]
-        email["body"] = buildMessage(event.message.data)
-        email
-    }
-
-    private static String buildMessage(def data) {
-        "Test failed for scenario: ${data.name}\n\n${data?.given}\n${data?.when}\n${data?.then}\n\n${data?.errorMessage}"
+        return gson.toJson(event.message.data)
     }
 
     private void ping() {
