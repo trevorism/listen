@@ -1,5 +1,6 @@
 package com.trevorism.event.webapi.controller
 
+import com.trevorism.event.handler.EmailEventHandler
 import com.trevorism.event.handler.LoggingEventHandler
 import com.trevorism.event.handler.StoreEventHandler
 import com.trevorism.event.handler.TestResultEventHandler
@@ -15,14 +16,6 @@ import javax.ws.rs.core.MediaType
 class EventListenerController {
 
     private StoreEventHandler storeEventHandler = new StoreEventHandler()
-
-
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    List<String> endpoints(){
-        return ["get", "post"]
-    }
 
     @POST
     @Path("store_{topic}")
@@ -41,7 +34,11 @@ class EventListenerController {
         if("testresult".equals(topic.toLowerCase())){
             TestResultEventHandler handler = new TestResultEventHandler()
             handler.performAction(event)
-        }else{
+        }else if("email".equals(topic.toLowerCase())){
+            EmailEventHandler handler = new EmailEventHandler()
+            handler.performAction(event)
+        }
+        else{
             LoggingEventHandler handler = new LoggingEventHandler()
             handler.performAction(event)
         }

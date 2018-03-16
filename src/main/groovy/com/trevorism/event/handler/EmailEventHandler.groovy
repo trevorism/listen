@@ -10,16 +10,13 @@ import java.util.logging.Logger
 /**
  * @author tbrooks
  */
-class TestResultEventHandler implements EventHandler{
+class EmailEventHandler implements EventHandler{
 
     private HttpClient client = new JsonHttpClient()
-    private static final Logger log = Logger.getLogger(TestResultEventHandler.class.name)
+    private static final Logger log = Logger.getLogger(EmailEventHandler.class.name)
 
     @Override
     void performAction(ReceivedEvent event) {
-        //Only email if the test failed
-        if(event.message.data.passing)
-            return
         ping()
         String json = createEmailJson(event)
         log.info("POSTING ${json}")
@@ -27,8 +24,22 @@ class TestResultEventHandler implements EventHandler{
     }
 
     private static String createEmailJson(ReceivedEvent event) {
+        def email = buildEmail(event)
         Gson gson = new Gson()
-        return gson.toJson(event.message.data)
+        String json = gson.toJson(email)
+        json
+    }
+
+    private static def buildEmail(ReceivedEvent event) {
+        def email = [:]
+        email["subject"] = "Test for ${event.message.data.feature} failed".toString()
+        email["recipients"] = ["alerts@trevorism.com"]
+        email["body"] = buildMessage(event.message.data)
+        email
+    }
+
+    private static String buildMessage(def data) {
+        "Test failed for scenario: ${data.name}\n\n${data?.given}\n${data?.when}\n${data?.then}\n\n${data?.errorMessage}"
     }
 
     private void ping() {
