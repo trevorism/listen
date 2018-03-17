@@ -15,7 +15,6 @@ class ReceivedEvent {
     static create(def map){
         Message msg = new Message()
         msg.attributes = map["message"]["attributes"]
-        msg.messageId = map["message"]["messageId"]
         msg.publishTime = map["message"]["publishTime"]
 
         String json = new String(map["message"]["data"].toString().decodeBase64())
@@ -24,17 +23,6 @@ class ReceivedEvent {
         SubscriptionInfo info = new SubscriptionInfo([subscription: map["subscription"]])
 
         return new ReceivedEvent(message: msg, subscription: info)
-    }
-
-    static class Message {
-        String publishTime
-        def data
-        String messageId
-        Map<String,String> attributes
-    }
-
-    static class SubscriptionInfo {
-        String subscription
     }
 
 }

@@ -1,36 +1,37 @@
 package com.trevorism.event.handler
 
 import com.google.gson.Gson
-import com.trevorism.event.model.ReceivedEvent
-import com.trevorism.http.headers.HeadersHttpClient
-import com.trevorism.http.headers.HeadersJsonHttpClient
+import com.trevorism.event.model.EventData
 import com.trevorism.http.util.ResponseUtils
-import com.trevorism.secure.PasswordProvider
+
+import java.util.logging.Logger
 
 /**
  * @author tbrooks
  */
-class StoreEventHandler implements EventHandler {
+class StoreEventHandler extends AbstractPingingEventHandler {
 
-    HeadersHttpClient client = new HeadersJsonHttpClient()
-    PasswordProvider passwordProvider = new PasswordProvider()
+    private static final Logger log = Logger.getLogger(StoreEventHandler.class.name)
 
     @Override
-    void performAction(ReceivedEvent event) {
-        String topic = event.message.attributes["topic"]
-        def dataToStore = createDataForStorage(event)
-
-        Gson gson = new Gson()
-        String json = gson.toJson(dataToStore)
-
-        ResponseUtils.closeSilently client.post("http://datastore.trevorism.com/api/${topic}/", json, [Authorization: passwordProvider.password])
+    String getPingUrl() {
+        "https://datastore.trevorism.com/ping"
     }
 
-    private def createDataForStorage(ReceivedEvent event) {
-        def dataToStore = [:]
-        dataToStore["dateCreated"] = event.message.publishTime
-        if(event.message.data)
-            dataToStore.putAll(event.message.data)
+    @Override
+    void handleEvent(EventData eventData) {
+        def dataToStore = createDataForStorage(eventData)
+        String json = gson.toJson(dataToStore)
+        log.info("Correlation ID: ${eventData.correlationId}")
+        log.info("HTTP POST: ${json}")
+        Map headerMap = ["X-Correlation-ID": eventData.correlationId, "Authorization": passwordProvider.password]
+        ResponseUtils.closeSilently client.post("https://datastore.trevorism.com/api/${eventData.topic}/", json, headerMap)
+    }
+
+    private static createDataForStorage(EventData eventData) {
+        def dataToStore = [dateCreated: eventData.publishTime]
+        if(eventData.data)
+            dataToStore.putAll(eventData.data)
         dataToStore
     }
 

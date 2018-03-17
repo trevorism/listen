@@ -1,43 +1,51 @@
 package com.trevorism.event.handler
 
 import com.google.gson.Gson
+import com.trevorism.event.model.EventData
 import com.trevorism.event.model.ReceivedEvent
 import com.trevorism.http.HttpClient
 import com.trevorism.http.JsonHttpClient
+import com.trevorism.http.headers.HeadersHttpClient
+import com.trevorism.http.headers.HeadersJsonHttpClient
+import com.trevorism.http.util.ResponseUtils
+import com.trevorism.secure.PasswordProvider
 
 import java.util.logging.Logger
 
 /**
  * @author tbrooks
  */
-class TestResultEventHandler implements EventHandler{
+class TestResultEventHandler extends AbstractPingingEventHandler{
 
-    private HttpClient client = new JsonHttpClient()
     private static final Logger log = Logger.getLogger(TestResultEventHandler.class.name)
 
     @Override
-    void performAction(ReceivedEvent event) {
+    String getPingUrl() {
+        "https://email-dot-trevorism-gcloud.appspot.com/ping"
+    }
+
+    @Override
+    void handleEvent(EventData eventData) {
         //Only email if the test failed
-        if(event.message.data.passing)
+        if(eventData.data.passing)
             return
-        ping()
-        String json = createEmailJson(event)
-        log.info("POSTING ${json}")
-        client.post('https://email-dot-trevorism-gcloud.appspot.com/mail/', json)
+        String json = createEmailJson(eventData)
+        log.info("Correlation ID: ${eventData.correlationId}")
+        log.info("HTTP POST: ${json}")
+        Map headerMap = ["X-Correlation-ID": eventData.correlationId, "Authorization": passwordProvider.password]
+        ResponseUtils.closeSilently client.post('https://email-dot-trevorism-gcloud.appspot.com/mail/', json, headerMap)
     }
 
-    private static String createEmailJson(ReceivedEvent event) {
+    private String createEmailJson(EventData event) {
         def email = buildEmail(event)
-        Gson gson = new Gson()
-        String json = gson.toJson(email)
-        json
+        return gson.toJson(email)
     }
 
-    private static def buildEmail(ReceivedEvent event) {
+    private static def buildEmail(EventData event) {
         def email = [:]
-        email["subject"] = "Test for ${event.message.data.feature} failed".toString()
+        email["subject"] = "Test for ${event.data.feature} failed".toString()
         email["recipients"] = ["alerts@trevorism.com"]
-        email["body"] = buildMessage(event.message.data)
+        email["body"] = buildMessage(event.data)
         email
     }
 
@@ -45,12 +53,4 @@ class TestResultEventHandler implements EventHandler{
         "Test failed for scenario: ${data.name}\n\n${data?.given}\n${data?.when}\n${data?.then}\n\n${data?.errorMessage}"
     }
 
-    private void ping() {
-        try {
-            new URL("https://email-dot-trevorism-gcloud.appspot.com/ping").text
-        } catch (Exception ignored) {
-            Thread.sleep(10000)
-            new URL("https://email-dot-trevorism-gcloud.appspot.com/ping").text
-        }
-    }
 }
