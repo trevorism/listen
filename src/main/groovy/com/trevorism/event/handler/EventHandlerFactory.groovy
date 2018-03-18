@@ -16,6 +16,9 @@ class EventHandlerFactory {
         if ("store" == key?.toLowerCase())
             return new StoreEventHandler()
 
+        if ("vm" == key?.toLowerCase())
+            return new VmEventHandler()
+
         return new LoggingEventHandler()
     }
 

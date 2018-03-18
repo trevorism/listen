@@ -14,6 +14,7 @@ class EventHandlerFactoryTest {
         assert EventHandlerFactory.build("foo") instanceof LoggingEventHandler
         assert EventHandlerFactory.build("testresult") instanceof TestResultEventHandler
         assert EventHandlerFactory.build("email") instanceof EmailEventHandler
+        assert EventHandlerFactory.build("vm") instanceof VmEventHandler
 
 
     }
