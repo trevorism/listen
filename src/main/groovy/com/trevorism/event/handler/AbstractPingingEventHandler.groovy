@@ -35,7 +35,7 @@ abstract class AbstractPingingEventHandler implements EventHandler {
     }
 
     protected def convertEventIntoPostObject(EventData eventData) {
-        return eventData
+        return eventData.data
     }
 
     private static void ping(String url) {
