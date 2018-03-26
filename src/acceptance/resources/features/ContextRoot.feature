@@ -3,7 +3,7 @@ Feature: Context Root of Listen
 
   Scenario: ContextRoot on app engine
     Given the listen application is alive
-    When I navigate to "https://listen-dot-trevorism-eventhub.appspot.com
+    When I navigate to "https://listen-dot-trevorism-eventhub.appspot.com"
     Then then a link to the help page is displayed
 
   Scenario: Ping on app engine

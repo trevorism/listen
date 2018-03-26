@@ -1,4 +1,4 @@
-package com.trevorism.eventhub
+package com.trevorism.event
 
 /**
  * @author tbrooks
@@ -10,13 +10,13 @@ this.metaClass.mixin(cucumber.api.groovy.EN)
 def contextRootContent
 def pingContent
 
-Given(~/^the eventhub application is alive$/) { ->
+Given(~/^the listen application is alive$/) { ->
     try{
-        new URL("http://event.trevorism.com/ping").text
+        new URL("https://listen-dot-trevorism-eventhub.appspot.com/ping").text
     }
     catch (Exception ignored){
         Thread.sleep(10000)
-        new URL("http://datastore.trevorism.com/ping").text
+        new URL("https://listen-dot-trevorism-eventhub.appspot.com/ping").text
     }
 }
 
