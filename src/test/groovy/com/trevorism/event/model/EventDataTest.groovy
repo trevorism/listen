@@ -1,5 +1,6 @@
 package com.trevorism.event.model
 
+import com.trevorism.event.webapi.controller.EventListenerControllerTest
 import org.junit.Test
 
 /**
@@ -21,9 +22,16 @@ class EventDataTest {
         assert eventData.publishTime == "2018"
         assert eventData.correlationId == "1234"
 
+    }
 
-
-
-
+    @Test
+    void testCreateFromMap(){
+        Map map = EventListenerControllerTest.createEmptyEvent()
+        ReceivedEvent event = ReceivedEvent.create(map)
+        EventData data = EventData.create(event)
+        assert data.data == [:]
+        assert !data.correlationId
+        assert !data.topic
+        assert !data.publishTime
     }
 }

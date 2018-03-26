@@ -1,7 +1,6 @@
 package com.trevorism.event.handler
 
 import com.trevorism.event.model.EventData
-import com.trevorism.http.headers.HeadersHttpClient
 import org.junit.Test
 
 /**
@@ -16,10 +15,8 @@ class StoreEventHandlerTest {
     }
 
     @Test
-    void testHandleEvent() {
+    void testGetPostUrl(){
         StoreEventHandler handler = new StoreEventHandler()
-        handler.client = [post : {s1,s2,map -> assert s1 == "https://datastore.trevorism.com/api/test/" }] as HeadersHttpClient
-
-        handler.handleEvent(new EventData(topic: "test"))
+        assert "https://datastore.trevorism.com/api/test/" == handler.getPostUrl(new EventData(topic: "test"))
     }
 }

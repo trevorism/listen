@@ -7,7 +7,7 @@ import java.util.logging.Logger
 /**
  * @author tbrooks
  */
-class LoggingEventHandler implements EventHandler{
+class LoggingEventHandler implements EventHandler {
 
     private static final Logger log = Logger.getLogger(LoggingEventHandler.class.name)
 

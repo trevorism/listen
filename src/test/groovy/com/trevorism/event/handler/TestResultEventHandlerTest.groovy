@@ -1,7 +1,5 @@
 package com.trevorism.event.handler
 
-import com.trevorism.event.model.EventData
-import com.trevorism.http.headers.HeadersHttpClient
 import org.junit.Test
 
 /**
@@ -16,10 +14,8 @@ class TestResultEventHandlerTest {
     }
 
     @Test
-    void testHandleEvent() {
+    void testGetPostUrl(){
         TestResultEventHandler handler = new TestResultEventHandler()
-        handler.client = [post : {s1,s2,map -> assert s1 == "https://email-dot-trevorism-gcloud.appspot.com/mail/" }] as HeadersHttpClient
-
-        handler.handleEvent(new EventData())
+        assert "https://email-dot-trevorism-gcloud.appspot.com/mail/" == handler.getPostUrl(null)
     }
 }

@@ -18,7 +18,10 @@ class EventData {
     static EventData create(ReceivedEvent event){
         EventData eventData = new EventData()
         eventData.data = event.message.data
-        eventData.correlationId = event.message.attributes["correlationId"]
+
+        if(event.message.attributes.containsKey("correlationId"))
+            eventData.correlationId = event.message.attributes["correlationId"]
+
         eventData.topic = event.message.attributes["topic"]
         eventData.publishTime = event.message.publishTime
 

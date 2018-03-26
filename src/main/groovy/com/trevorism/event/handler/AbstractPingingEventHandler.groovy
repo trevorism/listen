@@ -4,29 +4,41 @@ import com.google.gson.Gson
 import com.trevorism.event.model.EventData
 import com.trevorism.http.headers.HeadersHttpClient
 import com.trevorism.http.headers.HeadersJsonHttpClient
+import com.trevorism.http.util.ResponseUtils
 import com.trevorism.secure.PasswordProvider
+
+import java.util.logging.Logger
 
 /**
  * @author tbrooks
  */
-abstract class AbstractPingingEventHandler implements EventHandler{
+abstract class AbstractPingingEventHandler implements EventHandler {
 
-    public static final int PING_TIMEOUT_MILLIS = 10000
+    private static final Logger log = Logger.getLogger(AbstractPingingEventHandler.class.name)
+    private static final int PING_TIMEOUT_MILLIS = 10000
 
-    protected HeadersHttpClient client = new HeadersJsonHttpClient()
-    protected PasswordProvider passwordProvider = new PasswordProvider()
-    protected Gson gson = new Gson()
+    private HeadersHttpClient client = new HeadersJsonHttpClient()
+    private PasswordProvider passwordProvider = new PasswordProvider()
+    private Gson gson = new Gson()
 
-    abstract String getPingUrl()
-    abstract void handleEvent(EventData eventData)
+    protected abstract String getPingUrl()
+    protected abstract String getPostUrl(EventData eventData)
 
     @Override
     void performAction(EventData event) {
         ping(pingUrl)
-        handleEvent(event)
+        String json = gson.toJson(convertEventIntoPostObject(event))
+        log.info("Correlation ID: ${event.correlationId}")
+        log.info("${getPostUrl(event)} -- HTTP POST: ${json}")
+        Map headerMap = ["X-Correlation-ID": event.correlationId, "Authorization": passwordProvider.password]
+        ResponseUtils.closeSilently client.post(getPostUrl(event), json, headerMap)
     }
 
-    void ping(String url) {
+    protected def convertEventIntoPostObject(EventData eventData) {
+        return eventData
+    }
+
+    private static void ping(String url) {
         try {
             new URL(url).text
         } catch (Exception ignored) {

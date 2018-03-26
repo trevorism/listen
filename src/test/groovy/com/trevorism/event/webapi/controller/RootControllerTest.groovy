@@ -1,4 +1,4 @@
-package com.trevorism.gcloud.webapi.controller
+package com.trevorism.event.webapi.controller
 
 import com.trevorism.event.webapi.controller.RootController
 import org.junit.Test
