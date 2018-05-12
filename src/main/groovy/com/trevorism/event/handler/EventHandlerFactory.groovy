@@ -19,6 +19,9 @@ class EventHandlerFactory {
         if ("startvm" == key?.toLowerCase())
             return new VmEventHandler()
 
+        if ("deploy" == key?.toLowerCase())
+            return new DeployEventHandler()
+
         return new LoggingEventHandler()
     }
 

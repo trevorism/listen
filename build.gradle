@@ -9,11 +9,12 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.google.cloud.tools:appengine-gradle-plugin:1.3.2'
-        classpath 'com.trevorism:gradle-acceptance-plugin:1.1'
-        classpath 'com.trevorism:gradle-gae-deploy-plugin:1.0'
+        classpath 'com.google.cloud.tools:appengine-gradle-plugin:1.3.4'
+        classpath 'com.trevorism:gradle-acceptance-plugin:1.3.0'
+        classpath 'com.trevorism:gradle-gae-deploy-plugin:1.1.1'
     }
 }
+
 
 plugins {
     id "groovy"
@@ -32,11 +33,11 @@ repositories {
     }
 }
 
-def appengineVersion = "1.9.62"
-def jerseyVersion = "2.26"
+def appengineVersion = "1.9.63"
+def jerseyVersion = "2.27"
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.13'
+    compile 'org.codehaus.groovy:groovy-all:2.4.15'
     compile "com.google.appengine:appengine-api-1.0-sdk:$appengineVersion"
 
     compile "org.glassfish.jersey.containers:jersey-container-servlet:$jerseyVersion"
@@ -44,12 +45,12 @@ dependencies {
     compile "org.glassfish.jersey.inject:jersey-hk2:$jerseyVersion"
     compile 'com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.9.4'
 
-    compile 'com.trevorism:http-utils:1.0.0'
-    compile 'com.trevorism:secure-utils:1.0.0'
-    compile 'com.trevorism:datastore-client:1.1.0'
+    compile 'com.trevorism:http-utils:1.0.1'
+    compile 'com.trevorism:secure-utils:1.0.1'
+    compile 'com.trevorism:datastore-client:1.1.1'
 
     compile 'org.apache.httpcomponents:httpclient:4.5.5'
-    compile 'com.google.code.gson:gson:2.8.2'
+    compile 'com.google.code.gson:gson:2.8.4'
     compile 'io.swagger:swagger-jersey2-jaxrs:1.5.16'
     compile 'org.slf4j:slf4j-nop:1.7.25'
 

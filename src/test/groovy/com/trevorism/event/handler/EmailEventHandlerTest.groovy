@@ -1,7 +1,5 @@
 package com.trevorism.event.handler
 
-import com.trevorism.event.model.EventData
-import com.trevorism.http.headers.HeadersHttpClient
 import org.junit.Test
 
 /**
