@@ -13,6 +13,9 @@ class EventHandlerFactory {
         if ("email" == key?.toLowerCase())
             return new EmailEventHandler()
 
+        if ("alert" == key?.toLowerCase())
+            return new AlertEventHandler()
+
         if ("store" == key?.toLowerCase())
             return new StoreEventHandler()
 
