@@ -17,4 +17,24 @@ class EmailEventHandler extends AbstractPingingEventHandler {
         'https://email-dot-trevorism-gcloud.appspot.com/mail/'
     }
 
+    @Override
+    protected convertEventIntoPostObject(EventData event) {
+        def email = [:]
+        email["subject"] = event.data.subject
+        email["recipients"] = constructRecipientsList(event.data.recipients)
+        email["body"] = event.data.body
+        email
+    }
+
+    private List<String> constructRecipientsList(def recipients) {
+        if(recipients instanceof String){
+            String stringRecipients = recipients as String
+            if(recipients.contains(";"))
+                return stringRecipients.split(";").collect { it.trim()}
+            if(recipients.contains(","))
+                return stringRecipients.split(",").collect { it.trim()}
+            return stringRecipients.split(" ")
+        }
+        return recipients
+    }
 }

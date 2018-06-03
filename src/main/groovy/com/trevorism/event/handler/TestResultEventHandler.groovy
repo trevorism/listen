@@ -35,7 +35,11 @@ class TestResultEventHandler extends AbstractPingingEventHandler {
     }
 
     private static String buildMessage(def data) {
-        "Test failed for scenario: ${data.name}\n\n${data?.given}\n${data?.when}\n${data?.then}\n\n${data?.errorMessage}"
+        String message = "Test failed for scenario: ${data.name}\n\n${data?.given}\n${data?.when}\n${data?.then}"
+        if(data.errorMessage){
+            message += "\\n\\n${data.errorMessage}"
+        }
+        return message
     }
 
 }
