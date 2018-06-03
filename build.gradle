@@ -33,7 +33,7 @@ repositories {
     }
 }
 
-def appengineVersion = "1.9.63"
+def appengineVersion = "1.9.64"
 def jerseyVersion = "2.27"
 
 dependencies {
@@ -47,11 +47,11 @@ dependencies {
 
     compile 'com.trevorism:http-utils:1.0.1'
     compile 'com.trevorism:secure-utils:1.0.1'
-    compile 'com.trevorism:datastore-client:1.1.1'
+    compile 'com.trevorism:datastore-client:1.2.0'
 
     compile 'org.apache.httpcomponents:httpclient:4.5.5'
-    compile 'com.google.code.gson:gson:2.8.4'
-    compile 'io.swagger:swagger-jersey2-jaxrs:1.5.16'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'io.swagger:swagger-jersey2-jaxrs:1.5.20'
     compile 'org.slf4j:slf4j-nop:1.7.25'
 
     acceptanceCompile 'info.cukes:cucumber-groovy:1.2.5'
