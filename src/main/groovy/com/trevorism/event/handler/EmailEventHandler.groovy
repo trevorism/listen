@@ -33,7 +33,7 @@ class EmailEventHandler extends AbstractPingingEventHandler {
                 return stringRecipients.split(";").collect { it.trim()}
             if(recipients.contains(","))
                 return stringRecipients.split(",").collect { it.trim()}
-            return stringRecipients.split(" ")
+            return stringRecipients.split(" ").collect { it.trim()}
         }
         return recipients
     }
