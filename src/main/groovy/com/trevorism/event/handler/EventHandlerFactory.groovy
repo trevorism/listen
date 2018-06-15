@@ -25,6 +25,9 @@ class EventHandlerFactory {
         if ("deploy" == key?.toLowerCase())
             return new DeployEventHandler()
 
+        if ("cinvoke" == key?.toLowerCase())
+            return new CinvokeEventHandler()
+
         return new LoggingEventHandler()
     }
 

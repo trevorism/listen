@@ -17,7 +17,7 @@ class EventHandlerFactoryTest {
         assert EventHandlerFactory.build("email") instanceof EmailEventHandler
         assert EventHandlerFactory.build("startvm") instanceof VmEventHandler
         assert EventHandlerFactory.build("deploy") instanceof DeployEventHandler
-
+        assert EventHandlerFactory.build("cinvoke") instanceof CinvokeEventHandler
 
     }
 }
