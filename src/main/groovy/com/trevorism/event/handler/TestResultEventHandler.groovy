@@ -20,7 +20,7 @@ class TestResultEventHandler extends AbstractPingingEventHandler {
     @Override
     protected convertEventIntoPostObject(EventData event) {
         def email = [:]
-        email["subject"] = "Test for ${event.data.feature} failed".toString()
+        email["subject"] = "Test for ${event.data.projectName} failed".toString()
         email["recipients"] = ["alerts@trevorism.com"]
         email["body"] = buildMessage(event.data)
         email
@@ -35,7 +35,15 @@ class TestResultEventHandler extends AbstractPingingEventHandler {
     }
 
     private static String buildMessage(def data) {
-        String message = "Test failed for scenario: ${data.name}\n\n${data?.given}\n${data?.when}\n${data?.then}"
+        String message = """Test failed after ${data.duration} milliseconds.
+
+Feature: ${data.feature}
+Scenario: ${data.name}
+
+${data?.given}
+${data?.when}
+${data?.then}"""
+
         if(data.errorMessage){
             message += "\\n\\n${data.errorMessage}"
         }
