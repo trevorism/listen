@@ -35,7 +35,7 @@ class TestResultEventHandler extends AbstractPingingEventHandler {
     }
 
     private static String buildMessage(def data) {
-        String message = """Test failed after ${data.duration} milliseconds.
+        String message = """Test failed after ${data.durationMillis} milliseconds.
 
 Feature: ${data.feature}
 Scenario: ${data.name}
