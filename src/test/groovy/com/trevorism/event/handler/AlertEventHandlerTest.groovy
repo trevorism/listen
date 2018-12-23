@@ -5,7 +5,7 @@ import org.junit.Test
 /**
  * @author tbrooks
  */
-class AlertEventHandlerTest extends GroovyTestCase {
+class AlertEventHandlerTest{
 
     @Test
     void testGetPingUrl() {

@@ -18,6 +18,7 @@ class EventHandlerFactoryTest {
         assert EventHandlerFactory.build("startvm") instanceof VmEventHandler
         assert EventHandlerFactory.build("deploy") instanceof DeployEventHandler
         assert EventHandlerFactory.build("cinvoke") instanceof CinvokeEventHandler
+        assert EventHandlerFactory.build("notify") instanceof NotifyEventHandler
 
     }
 }
