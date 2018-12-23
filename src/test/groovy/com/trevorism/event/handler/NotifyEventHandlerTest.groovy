@@ -1,5 +1,6 @@
 package com.trevorism.event.handler
 
+import com.google.gson.Gson
 import com.trevorism.event.model.EventData
 import com.trevorism.event.model.Message
 import com.trevorism.event.model.ReceivedEvent
@@ -31,6 +32,7 @@ class NotifyEventHandlerTest {
         def obj = notifyEventHandler.convertEventIntoPostObject(eventData)
         assert obj["requestBody"].contains("subject")
         assert obj["requestBody"].contains("body")
+        assert !obj["requestBody"].contains("strings")
         assert obj["endpoint"] == "https://alert-dot-trevorism-gcloud.appspot.com/alert/"
         assert obj["enabled"]
 

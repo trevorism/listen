@@ -22,9 +22,11 @@ class NotifyEventHandler extends AbstractPingingEventHandler {
         Random random = new Random()
         String randomNumber = (random.nextInt(1000000) + 1000000).toString()
 
+        String body = "{\"subject\":\"Notification originating from ${event.publishTime}\",\"body\":\"${event.data.get("content")}\"}"
+
         return [name:randomNumber, collectionName:"notify", startDate: event.data.get("datetime"),
                 enabled:"true", endpoint:"https://alert-dot-trevorism-gcloud.appspot.com/alert/",
-                httpMethod: "POST", requestBody:"{\"subject\":\"Notification originating from ${event.publishTime}\",\"body\":\"${event.data.get("content")}\""]
+                httpMethod: "POST", requestBody: body]
     }
 
 }
