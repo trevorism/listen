@@ -28,9 +28,6 @@ class EventHandlerFactory {
         if ("cinvoke" == key?.toLowerCase())
             return new CinvokeEventHandler()
 
-        if ("notify" == key?.toLowerCase())
-            return new NotifyEventHandler()
-
         return new LoggingEventHandler()
     }
 
