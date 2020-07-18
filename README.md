@@ -5,11 +5,11 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/trevorism/listen)
 ![GitHub top language](https://img.shields.io/github/languages/top/trevorism/listen)
 
-Latest Version: 1.1.0
+Latest Version: 1.2.0
 
 A web api which subscribes to events from google pub/sub. It routes requests to the appropriate handler.
 
-This API is deployed here: [https://listen-dot-trevorism-eventhub.appspot.com](https://listen-dot-trevorism-eventhub.appspot.com)
+This API is deployed here: [http://listen.event.trevorism.com/](http://listen.event.trevorism.com/)
 
 ## How to build
 `gradle clean build`
