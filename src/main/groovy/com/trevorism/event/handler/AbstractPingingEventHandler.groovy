@@ -29,7 +29,6 @@ abstract class AbstractPingingEventHandler implements EventHandler {
         String json = gson.toJson(convertEventIntoPostObject(event))
         log.info("Correlation ID: ${event.correlationId}")
         log.info("${getPostUrl(event)} -- HTTP POST: ${json}")
-        log.info("Token: ${event.token}")
         Map headerMap = ["X-Correlation-ID": event.correlationId, "Authorization": "bearer ${event.token}".toString()]
         ResponseUtils.closeSilently client.post(getPostUrl(event), json, headerMap)
     }

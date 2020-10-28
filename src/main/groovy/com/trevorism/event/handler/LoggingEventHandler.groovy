@@ -13,6 +13,8 @@ class LoggingEventHandler implements EventHandler {
 
     @Override
     void performAction(EventData eventData) {
-        log.info("Correlation ID: ${eventData?.correlationId} " + "Event Data: ${eventData?.data}")
+        log.info("Correlation ID: ${eventData?.correlationId}")
+        log.info("Token: ${eventData.token}")
+        log.info("Event Data: ${eventData?.data}")
     }
 }
