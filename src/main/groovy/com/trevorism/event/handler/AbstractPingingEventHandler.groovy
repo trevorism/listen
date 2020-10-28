@@ -18,7 +18,6 @@ abstract class AbstractPingingEventHandler implements EventHandler {
     private static final int PING_TIMEOUT_MILLIS = 10000
 
     private HeadersHttpClient client = new HeadersJsonHttpClient()
-    private PasswordProvider passwordProvider = new PasswordProvider()
     private Gson gson = new Gson()
 
     protected abstract String getPingUrl()
@@ -30,7 +29,8 @@ abstract class AbstractPingingEventHandler implements EventHandler {
         String json = gson.toJson(convertEventIntoPostObject(event))
         log.info("Correlation ID: ${event.correlationId}")
         log.info("${getPostUrl(event)} -- HTTP POST: ${json}")
-        Map headerMap = ["X-Correlation-ID": event.correlationId, "Authorization": passwordProvider.password]
+        log.info("Token: ${event.token}")
+        Map headerMap = ["X-Correlation-ID": event.correlationId, "Authorization": "bearer ${event.token}".toString()]
         ResponseUtils.closeSilently client.post(getPostUrl(event), json, headerMap)
     }
 

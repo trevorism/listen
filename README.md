@@ -5,7 +5,7 @@
 ![GitHub language count](https://img.shields.io/github/languages/count/trevorism/listen)
 ![GitHub top language](https://img.shields.io/github/languages/top/trevorism/listen)
 
-Latest Version: 1.2.0
+Latest Version: 1.3.0
 
 A web api which subscribes to events from google pub/sub. It routes requests to the appropriate handler.
 

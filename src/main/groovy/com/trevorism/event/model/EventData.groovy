@@ -6,6 +6,7 @@ package com.trevorism.event.model
 class EventData {
     String correlationId
     String topic
+    String token
     String publishTime
     Map data = [:]
 
@@ -23,6 +24,7 @@ class EventData {
             eventData.correlationId = event.message.attributes["correlationId"]
 
         eventData.topic = event.message.attributes["topic"]
+        eventData.token = event.message.attributes["token"]
         eventData.publishTime = event.message.publishTime
 
         return eventData
